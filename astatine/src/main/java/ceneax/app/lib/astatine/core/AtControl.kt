@@ -1,9 +1,8 @@
 package ceneax.app.lib.astatine.core
 
-abstract class AtControl<S : AtState> {
+import ceneax.app.lib.astatine.newGenericsInstance
+import kotlinx.coroutines.flow.MutableStateFlow
 
-}
-
-inline fun <reified C : AtControl<out AtState>> AtView<C>.atControl(): Lazy<C> {
-
+abstract class AtControl<S : AtState>(private val stateScope: AtStateScope = AtStateScope.OWNER) {
+    private val stateStore = AtStateStore(MutableStateFlow(this::class.newGenericsInstance(0)))
 }

@@ -1,0 +1,47 @@
+package ceneax.app.lib.astatine.core
+
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.lifecycleScope
+
+@PublishedApi
+internal interface IAtControlFactory {
+    fun <C : AtControl<out AtState>> create(cls: Class<C>, context: AtContext): C
+}
+
+@PublishedApi
+internal class DefaultAtControlFactory : IAtControlFactory {
+    override fun <C : AtControl<out AtState>> create(
+        cls: Class<C>,
+        context: AtContext
+    ): C = cls.newInstance().apply {
+        //
+    }
+}
+
+@PublishedApi
+internal inline fun <reified C : AtControl<out AtState>> createAtControl(
+    context: AtContext,
+    factory: IAtControlFactory = DefaultAtControlFactory()
+): C = factory.create(C::class.java, context)
+
+inline fun <V, reified C : AtControl<out AtState>> V.atControl(): Lazy<C>
+where V : FragmentActivity, V : AtView<C> = lazy(LazyThreadSafetyMode.NONE) {
+    createAtControl(AtActivityContext(
+        activity = this,
+        fragmentManager = supportFragmentManager,
+        coroutineScope = lifecycleScope,
+        viewModelStoreOwner = this
+    ))
+}
+
+inline fun <V, reified C : AtControl<out AtState>> V.atControl(): Lazy<C>
+where V : Fragment, V : AtView<C> = lazy(LazyThreadSafetyMode.NONE) {
+    createAtControl(AtFragmentContext(
+        activity = requireActivity(),
+        fragmentManager = parentFragmentManager,
+        coroutineScope = lifecycleScope,
+        viewModelStoreOwner = this,
+        fragment = this
+    ))
+}
