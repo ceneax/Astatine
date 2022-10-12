@@ -14,9 +14,7 @@ internal class DefaultAtControlFactory : IAtControlFactory {
     override fun <C : AtControl<out AtState>> create(
         cls: Class<C>,
         context: AtContext
-    ): C = cls.newInstance().apply {
-        //
-    }
+    ): C = cls.getConstructor(cls.constructors[0].parameterTypes[0]).newInstance(context)
 }
 
 @PublishedApi
@@ -26,22 +24,16 @@ internal inline fun <reified C : AtControl<out AtState>> createAtControl(
 ): C = factory.create(C::class.java, context)
 
 inline fun <V, reified C : AtControl<out AtState>> V.atControl(): Lazy<C>
-where V : FragmentActivity, V : AtView<C> = lazy(LazyThreadSafetyMode.NONE) {
-    createAtControl(AtActivityContext(
-        activity = this,
-        fragmentManager = supportFragmentManager,
-        coroutineScope = lifecycleScope,
-        viewModelStoreOwner = this
-    ))
-}
+where V : FragmentActivity, V : AtView<C> = lazyOf(withAtInit(createAtControl(AtContext.Activity(
+    activity = this,
+    fragmentManager = supportFragmentManager,
+    coroutineScope = lifecycleScope
+))))
 
 inline fun <V, reified C : AtControl<out AtState>> V.atControl(): Lazy<C>
-where V : Fragment, V : AtView<C> = lazy(LazyThreadSafetyMode.NONE) {
-    createAtControl(AtFragmentContext(
-        activity = requireActivity(),
-        fragmentManager = parentFragmentManager,
-        coroutineScope = lifecycleScope,
-        viewModelStoreOwner = this,
-        fragment = this
-    ))
-}
+where V : Fragment, V : AtView<C> = lazyOf(withAtInit(createAtControl(AtContext.Fragment(
+    activity = requireActivity(),
+    fragmentManager = parentFragmentManager,
+    coroutineScope = lifecycleScope,
+    fragment = this
+))))

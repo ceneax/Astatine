@@ -2,6 +2,7 @@ package ceneax.app.lib.astatine
 
 import android.util.Log
 
+@PublishedApi
 internal object AtLog {
     private const val TAG = "Log_Astatine"
     private const val PREFIX = "[ Astatine ]"

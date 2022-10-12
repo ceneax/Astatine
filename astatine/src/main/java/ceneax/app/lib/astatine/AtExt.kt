@@ -4,6 +4,7 @@ import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import kotlin.reflect.KClass
 
+@Deprecated("", ReplaceWith(""))
 internal fun <R> Class<R>.newInstance(vararg args: Any): R {
     return getDeclaredConstructor(*args.map { it::class.java }.toTypedArray()).newInstance(*args)
 }
@@ -16,10 +17,6 @@ internal fun <R : Any, T> KClass<R>.getGenericsClass(index: Int): Class<T> {
 
 internal fun <R : Any, T> KClass<R>.newGenericsInstance(index: Int, vararg args: Any): T {
     return getGenericsClass<R, T>(index).newInstance(*args)
-}
-
-internal fun <R : Any> KClass<R>.newInstance(vararg args: Any): R {
-    return java.newInstance(*args)
 }
 
 internal fun Type.getActualTypeClass(index: Int): Class<*> {
