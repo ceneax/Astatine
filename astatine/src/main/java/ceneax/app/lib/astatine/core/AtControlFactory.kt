@@ -24,16 +24,20 @@ internal inline fun <reified C : AtControl<out AtState>> createAtControl(
 ): C = factory.create(C::class.java, context)
 
 inline fun <V, reified C : AtControl<out AtState>> V.atControl(): Lazy<C>
-where V : FragmentActivity, V : AtView<C> = lazyOf(withAtInit(createAtControl(AtContext.Activity(
-    activity = this,
-    fragmentManager = supportFragmentManager,
-    coroutineScope = lifecycleScope
-))))
+where V : FragmentActivity, V : AtView<C> = withAtInit(lazy(LazyThreadSafetyMode.NONE) {
+    createAtControl(AtContext.Activity(
+        activity = this,
+        fragmentManager = supportFragmentManager,
+        coroutineScope = lifecycleScope
+    ))
+})
 
 inline fun <V, reified C : AtControl<out AtState>> V.atControl(): Lazy<C>
-where V : Fragment, V : AtView<C> = lazyOf(withAtInit(createAtControl(AtContext.Fragment(
-    activity = requireActivity(),
-    fragmentManager = parentFragmentManager,
-    coroutineScope = lifecycleScope,
-    fragment = this
-))))
+where V : Fragment, V : AtView<C> = withAtInit(lazy(LazyThreadSafetyMode.NONE) {
+    createAtControl(AtContext.Fragment(
+        activity = requireActivity(),
+        fragmentManager = parentFragmentManager,
+        coroutineScope = lifecycleScope,
+        fragment = this
+    ))
+})

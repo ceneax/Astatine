@@ -5,14 +5,14 @@ import ceneax.app.lib.astatine.newGenericsInstance
 abstract class AtControl<S : AtState> @JvmOverloads constructor(
     private val context: AtContext,
     private val stateScope: AtStateScope = AtStateScope.EXCLUSIVE
-) {
+) : AtLifecycle {
     @PublishedApi
     @Suppress("UNCHECKED_CAST")
-    internal val stateStore by lazy(LazyThreadSafetyMode.NONE) { createStateStore(
+    internal val stateStore = createStateStore(
         context,
         this::class.newGenericsInstance(0),
         stateScope
-    ) as AtStateStore<S> }
+    ) as AtStateStore<S>
 
     val state: S get() = stateStore.state
 

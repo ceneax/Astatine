@@ -1,8 +1,11 @@
 package ceneax.app.lib.astatine
 
+import android.os.Bundle
+import androidx.core.os.bundleOf
 import java.lang.reflect.ParameterizedType
 import java.lang.reflect.Type
 import kotlin.reflect.KClass
+import kotlin.reflect.KProperty1
 
 @Deprecated("", ReplaceWith(""))
 internal fun <R> Class<R>.newInstance(vararg args: Any): R {
@@ -34,3 +37,9 @@ internal fun <R : Any> R.setDeclaredField(name: String, value: Any): R {
     this::class.java.setDeclaredField(this, name, value)
     return this
 }
+
+fun atBundleOf(vararg pairs: Pair<KProperty1<*, *>, Any?>): Bundle = bundleOf(
+    *Array(pairs.size) {
+        Pair(pairs[it].first.name, pairs[it].second)
+    }
+)
