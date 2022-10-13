@@ -1,27 +1,32 @@
-package ceneax.app.astatine
+package ceneax.app.astatine.base
 
 import android.os.Bundle
 import android.view.LayoutInflater
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.WindowCompat
+import android.view.View
+import android.view.ViewGroup
+import androidx.fragment.app.Fragment
 import androidx.viewbinding.ViewBinding
 import java.lang.reflect.ParameterizedType
 
 @Suppress("UNCHECKED_CAST")
-open class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
+open class BaseFragment<VB : ViewBinding> : Fragment() {
     private var _viewBinding: VB? = null
     protected val binding get() = _viewBinding!!
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        WindowCompat.setDecorFitsSystemWindows(window, false)
-        super.onCreate(savedInstanceState)
-
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
         // 使用反射得到ViewBinding的class
         val aClass = (this::class.java.genericSuperclass as ParameterizedType).actualTypeArguments[0] as Class<*>
         val method = aClass.getDeclaredMethod("inflate", LayoutInflater::class.java)
         _viewBinding = method.invoke(null, layoutInflater) as VB
+        return binding.root
+    }
 
-        setContentView(binding.root)
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
 
         initVariable()
         initView()
@@ -30,8 +35,8 @@ open class BaseActivity<VB : ViewBinding> : AppCompatActivity() {
         initData()
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+    override fun onDestroyView() {
+        super.onDestroyView()
         _viewBinding = null
     }
 

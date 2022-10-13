@@ -11,7 +11,7 @@ interface AtView<C : AtControl<out AtState>> : LifecycleOwner, ViewModelStoreOwn
 
 @PublishedApi
 internal fun <C : AtControl<out AtState>, V : AtView<C>> V.withAtInit(control: Lazy<C>): Lazy<C> {
-    lifecycleScope.launchWhenCreated {
+    lifecycleScope.launchWhenStarted {
         listOf(
             ParamAtInitSlots(),
             LaunchAtInitSlots()

@@ -1,11 +1,11 @@
 package ceneax.app.lib.astatine.core
 
 /**
- * [Activity, Fragment]
+ * 初始化 [Activity] => [android.app.Activity.onCreate] -> [onInit]
  *
- * 初始化 => [android.app.Activity.onCreate] -> [onInit]
+ * [Fragment] => [androidx.fragment.app.Fragment.onViewCreated] -> [onInit]
  *
- * 销毁 => [onDispose] -> [android.app.Activity.onDestroy]
+ * 销毁 => [android.app.Activity.onDestroy] -> [onDispose]
  */
 interface AtLifecycle {
     fun onInit() {}

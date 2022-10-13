@@ -5,12 +5,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:fitsSystemWindows="true"
+        android:background="#f5f6f7"
         tools:context=".MainActivity">
 
     <com.google.android.material.appbar.AppBarLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"
-            android:fitsSystemWindows="true">
+            android:fitsSystemWindows="true"
+            android:background="#f5f6f7">
 
         <com.google.android.material.appbar.MaterialToolbar
                 android:id="@+id/toolbar"
@@ -19,16 +21,10 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <androidx.core.widget.NestedScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior">
-
-        <androidx.fragment.app.FragmentContainerView
-                android:id="@+id/fmContainer"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" />
-
-    </androidx.core.widget.NestedScrollView>
+    <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/fmContainer"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_behavior="com.google.android.material.appbar.AppBarLayout$ScrollingViewBehavior"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
