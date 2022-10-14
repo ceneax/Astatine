@@ -8,21 +8,26 @@ import ceneax.app.lib.astatine.core.At
 import ceneax.app.lib.astatine.core.AtView
 import ceneax.app.lib.astatine.core.atControl
 import ceneax.app.lib.astatine.core.build
+import ceneax.app.lib.astatine.setTextIfDifferent
 
 class AddFragment : BaseFragment<FragmentAddBinding>(), AtView<AddControl> {
     override val control by atControl()
-    private var mFlag = false
 
     override fun bindEvent() {
         binding.etWrite.addTextChangedListener {
-//            if (!mFlag) return@addTextChangedListener
             it?.toString()?.let { s ->
                 control.editChange(s)
+                Log.e("Log_", "TextChangedListener: $s")
             }
+        }
+
+        binding.btOk.setOnClickListener {
+            control.editChange(System.currentTimeMillis().toString())
         }
     }
 
     override fun At.invalidate() = build {
-        ::content { Log.e("Log_", "AddFragment invalidate content value: $content") }
+        ::content { binding.etWrite.setTextIfDifferent(content) }
+        ::title {  }
     }
 }

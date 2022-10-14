@@ -5,7 +5,8 @@ import ceneax.app.lib.astatine.core.AtControl
 import ceneax.app.lib.astatine.core.AtState
 
 data class AddState(
-    val content: String = ""
+    val content: String = "",
+    val title: String = "123"
 ) : AtState
 
 class AddControl(context: AtContext) : AtControl<AddState>(context) {
