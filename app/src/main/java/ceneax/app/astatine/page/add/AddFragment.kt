@@ -1,13 +1,10 @@
 package ceneax.app.astatine.page.add
 
-import android.util.Log
+import androidx.core.os.bundleOf
 import androidx.core.widget.addTextChangedListener
 import ceneax.app.astatine.base.BaseFragment
 import ceneax.app.astatine.databinding.FragmentAddBinding
-import ceneax.app.lib.astatine.core.At
-import ceneax.app.lib.astatine.core.AtView
-import ceneax.app.lib.astatine.core.atControl
-import ceneax.app.lib.astatine.core.build
+import ceneax.app.lib.astatine.core.*
 import ceneax.app.lib.astatine.setTextIfDifferent
 
 class AddFragment : BaseFragment<FragmentAddBinding>(), AtView<AddControl> {
@@ -17,17 +14,23 @@ class AddFragment : BaseFragment<FragmentAddBinding>(), AtView<AddControl> {
         binding.etWrite.addTextChangedListener {
             it?.toString()?.let { s ->
                 control.editChange(s)
-                Log.e("Log_", "TextChangedListener: $s")
             }
         }
 
         binding.btOk.setOnClickListener {
-            control.editChange(System.currentTimeMillis().toString())
+            parentFragmentManager.popBackStack()
+            parentFragmentManager.setFragmentResult("123", bundleOf(
+                "data" to control.state.content
+            ))
+        }
+
+        binding.btTest.setOnClickListener {
+            control.setTitle()
         }
     }
 
-    override fun At.invalidate() = build {
+    override fun At.build() = builder {
         ::content { binding.etWrite.setTextIfDifferent(content) }
-        ::title {  }
+        ::title { }
     }
 }

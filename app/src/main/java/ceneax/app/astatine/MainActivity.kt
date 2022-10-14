@@ -17,6 +17,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), AtView<MainControl> {
         }
     }
 
-    override fun At.invalidate() = build {
+    override fun At.build() = builder {
     }
 }

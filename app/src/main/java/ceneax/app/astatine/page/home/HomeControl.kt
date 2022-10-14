@@ -9,4 +9,10 @@ data class HomeState(
 ) : AtState
 
 class HomeControl(context: AtContext) : AtControl<HomeState>(context) {
+    fun addTodoItem(item: String) {
+        val list = state.list.toMutableList().apply {
+            add(item)
+        }
+        setState { copy(list = list) }
+    }
 }

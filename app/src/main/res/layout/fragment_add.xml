@@ -17,4 +17,11 @@
             android:layout_margin="20dp"
             android:text="保存"/>
 
+    <Button
+            android:id="@+id/btTest"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp"
+            android:text="Test"/>
+
 </LinearLayout>
