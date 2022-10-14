@@ -6,7 +6,7 @@ import ceneax.app.lib.astatine.AtLog
 interface AtView<C : AtControl<out AtState>> : LifecycleOwner, ViewModelStoreOwner {
     val control: C
 
-    fun invalidate()
+    fun At.invalidate()
 }
 
 @PublishedApi

@@ -4,8 +4,7 @@ import androidx.fragment.app.commit
 import ceneax.app.astatine.base.BaseActivity
 import ceneax.app.astatine.databinding.ActivityMainBinding
 import ceneax.app.astatine.page.home.HomeFragment
-import ceneax.app.lib.astatine.core.AtView
-import ceneax.app.lib.astatine.core.atControl
+import ceneax.app.lib.astatine.core.*
 
 class MainActivity : BaseActivity<ActivityMainBinding>(), AtView<MainControl> {
     override val control by atControl()
@@ -18,6 +17,6 @@ class MainActivity : BaseActivity<ActivityMainBinding>(), AtView<MainControl> {
         }
     }
 
-    override fun invalidate() {
+    override fun At.invalidate() = build {
     }
 }

@@ -9,6 +9,7 @@ import ceneax.app.astatine.page.add.AddFragment
 import ceneax.app.lib.astatine.adapter.AtAdapter
 import ceneax.app.lib.astatine.adapter.atAdapter
 import ceneax.app.lib.astatine.adapter.bind
+import ceneax.app.lib.astatine.core.At
 import ceneax.app.lib.astatine.core.AtView
 import ceneax.app.lib.astatine.core.atControl
 
@@ -32,7 +33,7 @@ class HomeFragment : BaseFragment<FragmentHomeBinding>(), AtView<HomeControl> {
         }
     }
 
-    override fun invalidate() {
+    override fun At.invalidate() {
         binding.recyclerView.atAdapter.updateList(control.state.list)
     }
 }

@@ -34,12 +34,18 @@ internal class ParamAtInitSlots : AtInitSlots {
 }
 
 internal class LaunchAtInitSlots : AtInitSlots {
+    private val mAtInvalidator = AtInvalidator()
+
     override suspend fun <V : AtView<C>, C : AtControl<out AtState>> execute(view: V, control: C) {
         AtLog.d("${control::class.java.simpleName} -> onInit()")
         control.onInit()
 
+        with(view) {
+            mAtInvalidator.invalidate()
+        }
+
         control.stateStore.stateFlow.onEach {
-            view.invalidate()
+            mAtInvalidator.rebuild(it)
         }.collect()
     }
 }
