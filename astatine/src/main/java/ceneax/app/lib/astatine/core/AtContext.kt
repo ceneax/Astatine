@@ -3,6 +3,7 @@ package ceneax.app.lib.astatine.core
 import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.lifecycle.ViewModelStoreOwner
+import androidx.lifecycle.lifecycleScope
 import kotlinx.coroutines.CoroutineScope
 
 sealed interface AtContext {
@@ -12,14 +13,16 @@ sealed interface AtContext {
 
     data class Activity(
         override val activity: FragmentActivity,
-        override val fragmentManager: FragmentManager,
-        override val coroutineScope: CoroutineScope,
-    ) : AtContext
+        override val fragmentManager: FragmentManager
+    ) : AtContext {
+        override val coroutineScope get() = activity.lifecycleScope
+    }
 
     data class Fragment(
         override val activity: FragmentActivity,
         override val fragmentManager: FragmentManager,
-        override val coroutineScope: CoroutineScope,
         val fragment: androidx.fragment.app.Fragment
-    ) : AtContext
+    ) : AtContext {
+        override val coroutineScope get() = fragment.lifecycleScope
+    }
 }

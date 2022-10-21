@@ -52,31 +52,16 @@ fun atBundleOf(vararg pairs: Pair<KProperty1<*, *>, Any?>): Bundle = bundleOf(
 
 // -------------------------- ViewExt --------------------------
 
-/**
- * Set the given text on the textview.
- *
- * @return True if the given text is different from the previous text on the textview.
- */
 fun EditText.setTextIfDifferent(newText: CharSequence?): Boolean {
     if (!isTextDifferent(newText, text)) {
-        // Previous text is the same. No op
         return false
     }
 
     setText(newText)
-    // Since the text changed we move the cursor to the end of the new text.
-    // This allows us to fill in text programmatically with a different value,
-    // but if the user is typing and the view is rebound we won't lose their cursor position.
     setSelection(newText?.length ?: 0)
     return true
 }
 
-/**
- * @return True if str1 is different from str2.
- *
- *
- * This is adapted from how the Android DataBinding library binds its text views.
- */
 internal fun isTextDifferent(str1: CharSequence?, str2: CharSequence?): Boolean {
     if (str1 === str2) {
         return false

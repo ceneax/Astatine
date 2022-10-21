@@ -27,8 +27,7 @@ inline fun <V, reified C : AtControl<out AtState>> V.atControl(): Lazy<C>
 where V : FragmentActivity, V : AtView<C> = withAtInit(lazy(LazyThreadSafetyMode.NONE) {
     createAtControl(AtContext.Activity(
         activity = this,
-        fragmentManager = supportFragmentManager,
-        coroutineScope = lifecycleScope
+        fragmentManager = supportFragmentManager
     ))
 })
 
@@ -37,7 +36,6 @@ where V : Fragment, V : AtView<C> = withAtInit(lazy(LazyThreadSafetyMode.NONE) {
     createAtControl(AtContext.Fragment(
         activity = requireActivity(),
         fragmentManager = parentFragmentManager,
-        coroutineScope = lifecycleScope,
         fragment = this
     ))
 })

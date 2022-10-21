@@ -40,15 +40,15 @@ internal class LaunchAtInitSlots : AtInitSlots {
         AtLog.d("${control::class.java.simpleName} -> onInit()")
         control.onInit()
 
-        with(view) {
-            mAtInvalidator.build()
-        }
+//        with(view) {
+//            mAtInvalidator.build()
+//        }
 
         control.stateStore.stateFlow.onEach {
-//            with(view) {
-//                mAtInvalidator.build()
-//            }
-            mAtInvalidator.rebuild(it)
+            with(view) {
+                mAtInvalidator.build()
+            }
+//            mAtInvalidator.rebuild(it)
         }.collect()
     }
 }
