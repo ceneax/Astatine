@@ -2,13 +2,16 @@ package ceneax.app.lib.astatine
 
 import org.junit.Test
 
-/**
- * Example local unit test, which will execute on the development machine (host).
- *
- * See [testing documentation](http://d.android.com/tools/testing).
- */
 class ExampleUnitTest {
     @Test
     fun addition_isCorrect() {
+        println("======= start ========")
+        TestA {}()
+    }
+}
+
+class TestA(block: () -> Unit) : () -> Unit {
+    override fun invoke() {
+        println("new TestA and execute invoke")
     }
 }
