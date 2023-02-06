@@ -22,13 +22,15 @@ internal class ParamAtInitSlots : AtInitSlots {
         }
 
         bundle?.keySet()?.forEach {
-            val filed = control.state::class.java.getDeclaredField(it)
-            if (!filed.isAnnotationPresent(Param::class.java)) {
-                return@forEach
-            }
+            runCatching {
+                val filed = control.state::class.java.getDeclaredField(it)
+                if (!filed.isAnnotationPresent(Param::class.java)) {
+                    return@forEach
+                }
 
-            filed.isAccessible = true
-            filed.set(control.state, bundle[it])
+                filed.isAccessible = true
+                filed.set(control.state, bundle[it])
+            }
         }
     }
 }
